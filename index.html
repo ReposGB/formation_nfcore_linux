@@ -17,7 +17,7 @@
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -339,7 +339,7 @@ données NGS (Single cell RNA-seq, RNA-seq bulk et DNA-seq) sous nf-core
 sur cluster de calcul</h1>
 <h4 class="author">Ghislain Bidaut, Plateforme Cibi, CRCM, Aix-Marseille
 Université</h4>
-<h4 class="date">Octobre 2025</h4>
+<h4 class="date">Novembre 2025</h4>
 
 </div>
 
@@ -348,8 +348,8 @@ Université</h4>
 <p><img src="Maxi_Logo_Formation_Bioinfo.png" width="3000" /> <br> <br>
 <br> <br></p>
 <hr />
-<div id="formation" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Formation</h1>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <p>Ceci est le site compagnon pour la <strong>Formation en
 Bioinformatique Module 1 - Traiter ses données NGS (Single cell RNA-seq,
 RNA-seq bulk et DNA-seq) sous nf-core sur cluster de
@@ -361,98 +361,82 @@ dans un environnement <strong>Linux</strong> de type
 <strong>cluster</strong> en utilisant la bibliothèque de pipelines
 <strong>NF-Core</strong>.</p>
 </blockquote>
-<p>A l’issue de la formation, les participants sauront :</p>
+<p>A l’issue de la formation, les participants :</p>
 <ul>
-<li>Etre familier avec la bibliothèque de pipelines
+<li>Seront familier avec la bibliothèque de pipelines
 <strong>NF-Core</strong> et le gestionnaire de pipelines
 <strong>Nextflow</strong>, ainsi que les principes de leur installation
 et configuration sur un cluster de calcul.</li>
-<li>Exécuter un pipeline standard NF-Core sur un environnement
-<strong>SLURM</strong>, en explorant les étapes et les résultats
-produits.</li>
-<li>Configurer et personnaliser des pipelines NF-Core à l’aide de
-paramètres avancés, en intégrant des solutions de conteneurisation
-(Docker/Singularity).</li>
-<li>Mettre en œuvre des cas pratiques d’analyse de données NGS avec
-NF-Core sur SLURM, notamment :
+<li>Sauront <strong>exécuter un pipeline</strong> standard NF-Core sur
+un environnement <strong>SLURM</strong>, en explorant les étapes et les
+résultats produits.</li>
+<li>Pourront <strong>configurer et personnaliser</strong> des pipelines
+NF-Core à l’aide de paramètres avancés, en intégrant des solutions de
+conteneurisation (Docker/Singularity).</li>
+<li>Sauront mettre en œuvre des <strong>cas pratiques</strong> d’analyse
+de données NGS avec NF-Core sur SLURM:
 <ul>
 <li>Identifier des variants génétiques (SNPs, indels) à partir de
 données <strong>DNA-seq</strong> avec le pipeline
-<code>nf-core/sarek</code>. -Quantifier l’expression génique à partir de
-données <strong>RNA-seq</strong> avec le pipeline
+<code>nf-core/sarek</code>.</li>
+<li>Quantifier l’expression génique à partir de données
+<strong>RNA-seq</strong> avec le pipeline
 <code>nf-core/rnaseq</code>.</li>
 <li>Analyser l’expression génique à l’échelle de la cellule unique à
 partir de données <strong>scRNA-seq</strong> avec le pipeline
 <code>nf-core/scrnaseq</code>.</li>
 </ul></li>
 </ul>
+<p><br> <br></p>
 </div>
 <div id="emploi-du-temps-et-déroulé-de-la-formation"
-class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Emploi du temps et
-déroulé de la formation</h1>
-<div id="jour-1" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Jour 1</h2>
-<div id="jour-1-matin" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> Jour 1 Matin</h3>
-<ul>
-<li><em>Introduction à la formation</em></li>
-<li>Présentation: <em>Introduction à Linux et Slurm</em></li>
-<li>TD: <em>Environnement de travail de l’IFB</em></li>
-</ul>
+class="section level1">
+<h1>Emploi du temps et déroulé de la formation</h1>
+<table>
+<colgroup>
+<col width="36%" />
+<col width="23%" />
+<col width="40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Jour</th>
+<th>Matin</th>
+<th>Après-Midi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Jour 1</strong></td>
+<td>- <em>Introduction à la formation</em> <br> - Présentation :
+<em>Introduction à Linux et Slurm</em> <br> - TD : <em>Environnement de
+travail de l’IFB</em></td>
+<td>- TD : <em>Scripts Linux et soumission de jobs Slurm</em> <br> -
+Conclusion de la journée et échanges</td>
+</tr>
+<tr class="even">
+<td><strong>Jour 2</strong></td>
+<td>- Présentation : <em>Intro NF-Core</em> <br> - TD : <em>S’orienter
+sur le site NF-core et installer des pipelines</em></td>
+<td>- Présentation : <em>Analyse de données RNA-seq BULK &amp;
+Single</em> <br> - TD : <em>Analyse RNA-seq par pipeline
+<code>rnaseq</code></em> <br> - Conclusion de la journée et
+échanges</td>
+</tr>
+<tr class="odd">
+<td><strong>Jour 3</strong></td>
+<td>- TD : <em>Analyse Single-Cell RNA-seq par pipeline
+<code>scrnaseq</code></em> <br> - Présentation : <em>Recherche de
+variants par analyse DNA-Seq</em></td>
+<td>- TD : <em>DNA-Seq – Utilisation du pipeline d’appel de variants
+<code>sarek</code></em> <br> - Conclusion de la formation</td>
+</tr>
+</tbody>
+</table>
+<p><br> <br></p>
 </div>
-<div id="jour-1-après-midi" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> Jour 1
-Après-Midi</h3>
-<ul>
-<li>TD: <em>Scripts Linux et soummission de jobs Slurm</em></li>
-<li>Conclusion de la journée et échanges</li>
-</ul>
-</div>
-</div>
-<div id="jour-2" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Jour 2</h2>
-<div id="jour-2-matin" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Jour 2 Matin</h3>
-<ul>
-<li>Présentation: <em>Intro NF-Core</em></li>
-<li>TD: <em>S’orienter sur le site NF-core et installer des
-pipelines</em></li>
-</ul>
-</div>
-<div id="jour-2-après-midi" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Jour 2 Après
-Midi</h3>
-<ul>
-<li>Présentation: Analyse de données RNA-seq BULK &amp; Single_</li>
-<li>TD: <em>Analyse RNA-seq par pipeline <code>rnaseq</code></em></li>
-<li>Conclusion de la journée et échanges</li>
-</ul>
-</div>
-</div>
-<div id="jour-3" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Jour 3</h2>
-<div id="jour-3-matin" class="section level3" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Jour 3 Matin</h3>
-<ul>
-<li>TD: <em>Analyse Single-Cell RNA-seq par pipeline
-<code>scrnaseq</code></em></li>
-<li>Présentation: <em>Recherche de variants par analyse
-DNA-Seq</em></li>
-</ul>
-</div>
-<div id="jour-3-après-midi" class="section level3" number="2.3.2">
-<h3><span class="header-section-number">2.3.2</span> Jour 3
-Après-Midi</h3>
-<ul>
-<li>TD: <em>DNA-Seq - Utilisation du pipeline d’appel de variants
-<code>sarek</code></em></li>
-<li>Conclusion de la formation</li>
-</ul>
-</div>
-</div>
-<div id="pratique" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Pratique</h2>
+<div id="pratique" class="section level1">
+<h1>Pratique</h1>
 <ul>
 <li><p>Mise à disposition de comptes de formation sur le <strong>cluster
 IFB-core</strong> de <a
@@ -463,9 +447,10 @@ lien:</p></li>
 </ul>
 <p><a href="https://reposgb.github.io/formation_nfcore_linux"
 class="uri">https://reposgb.github.io/formation_nfcore_linux</a></p>
+<p><br> <br></p>
 </div>
-<div id="remerciement" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Remerciement</h2>
+<div id="remerciement" class="section level1">
+<h1>Remerciement</h1>
 <p>Je remercie les personnes suivantes qui ont joué un rôle essentiel à
 la mise en place de cette formation:</p>
 <ul>
@@ -480,8 +465,9 @@ pour cette formation.</p></li>
 Marseille</strong> pour leur expertise précieuse dans la mise en place
 de cette formation.</p></li>
 </ul>
-<p><img src="Logo_IFB.png" width="200" /> <img src="Logo_AMU.png"
-width="200" /> <img src="Logo_Cibi_classic.png" width="200" /></p>
+<p><img src="Logo_IFB.png" style="margin-right:40px" width="200" /> <img
+src="logo_AMU.png" style="margin-right:40px" width="170" /> <img
+src="Logo_Cibi_classic.png" width="200" /></p>
 <p><br> <br> <br> <br></p>
 <hr />
 <div style="text-align: center">
@@ -490,7 +476,6 @@ width="200" /> <img src="Logo_Cibi_classic.png" width="200" /></p>
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licence
 Creative Commons:</a> <br>Attribution - Pas d’Utilisation Commerciale -
 Pas de Modification 4.0 International (CC BY-NC-ND 4.0).</p>
-</div>
 </div>
 </div>
 
