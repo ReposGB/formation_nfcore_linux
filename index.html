@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Ghislain Bidaut, Plateforme Cibi, CRCM, Aix-Marseille Université" />
+
+
+<title>Bioinformatique Module 1 - Traiter ses données NGS (Single cell RNA-seq, RNA-seq bulk et DNA-seq) sous nf-core sur cluster de calcul</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Formation NGS NF-Core</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Accueil</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Bioinformatique Module 1 - Traiter ses
+données NGS (Single cell RNA-seq, RNA-seq bulk et DNA-seq) sous nf-core
+sur cluster de calcul</h1>
+<h4 class="author">Ghislain Bidaut, Plateforme Cibi, CRCM, Aix-Marseille
+Université</h4>
+<h4 class="date">Octobre 2025</h4>
+
+</div>
+
+
+<p><br> <br></p>
+<p><img src="Maxi_Logo_Formation_Bioinfo.png" width="3000" /> <br> <br>
+<br> <br></p>
+<hr />
+<div id="formation" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Formation</h1>
+<p>Ceci est le site compagnon pour la <strong>Formation en
+Bioinformatique Module 1 - Traiter ses données NGS (Single cell RNA-seq,
+RNA-seq bulk et DNA-seq) sous nf-core sur cluster de
+calcul</strong>.</p>
+<blockquote>
+<p><strong>Objectif :</strong> Savoir mener une analyse bioinformatique
+sur les séquences issues d’une analyse de séquençage à haut débit (NGS)
+dans un environnement <strong>Linux</strong> de type
+<strong>cluster</strong> en utilisant la bibliothèque de pipelines
+<strong>NF-Core</strong>.</p>
+</blockquote>
+<p>A l’issue de la formation, les participants sauront :</p>
+<ul>
+<li>Etre familier avec la bibliothèque de pipelines
+<strong>NF-Core</strong> et le gestionnaire de pipelines
+<strong>Nextflow</strong>, ainsi que les principes de leur installation
+et configuration sur un cluster de calcul.</li>
+<li>Exécuter un pipeline standard NF-Core sur un environnement
+<strong>SLURM</strong>, en explorant les étapes et les résultats
+produits.</li>
+<li>Configurer et personnaliser des pipelines NF-Core à l’aide de
+paramètres avancés, en intégrant des solutions de conteneurisation
+(Docker/Singularity).</li>
+<li>Mettre en œuvre des cas pratiques d’analyse de données NGS avec
+NF-Core sur SLURM, notamment :
+<ul>
+<li>Identifier des variants génétiques (SNPs, indels) à partir de
+données <strong>DNA-seq</strong> avec le pipeline
+<code>nf-core/sarek</code>. -Quantifier l’expression génique à partir de
+données <strong>RNA-seq</strong> avec le pipeline
+<code>nf-core/rnaseq</code>.</li>
+<li>Analyser l’expression génique à l’échelle de la cellule unique à
+partir de données <strong>scRNA-seq</strong> avec le pipeline
+<code>nf-core/scrnaseq</code>.</li>
+</ul></li>
+</ul>
+</div>
+<div id="emploi-du-temps-et-déroulé-de-la-formation"
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Emploi du temps et
+déroulé de la formation</h1>
+<div id="jour-1" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Jour 1</h2>
+<div id="jour-1-matin" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Jour 1 Matin</h3>
+<ul>
+<li><em>Introduction à la formation</em></li>
+<li>Présentation: <em>Introduction à Linux et Slurm</em></li>
+<li>TD: <em>Environnement de travail de l’IFB</em></li>
+</ul>
+</div>
+<div id="jour-1-après-midi" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Jour 1
+Après-Midi</h3>
+<ul>
+<li>TD: <em>Scripts Linux et soummission de jobs Slurm</em></li>
+<li>Conclusion de la journée et échanges</li>
+</ul>
+</div>
+</div>
+<div id="jour-2" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Jour 2</h2>
+<div id="jour-2-matin" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Jour 2 Matin</h3>
+<ul>
+<li>Présentation: <em>Intro NF-Core</em></li>
+<li>TD: <em>S’orienter sur le site NF-core et installer des
+pipelines</em></li>
+</ul>
+</div>
+<div id="jour-2-après-midi" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Jour 2 Après
+Midi</h3>
+<ul>
+<li>Présentation: Analyse de données RNA-seq BULK &amp; Single_</li>
+<li>TD: <em>Analyse RNA-seq par pipeline <code>rnaseq</code></em></li>
+<li>Conclusion de la journée et échanges</li>
+</ul>
+</div>
+</div>
+<div id="jour-3" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Jour 3</h2>
+<div id="jour-3-matin" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Jour 3 Matin</h3>
+<ul>
+<li>TD: <em>Analyse Single-Cell RNA-seq par pipeline
+<code>scrnaseq</code></em></li>
+<li>Présentation: <em>Recherche de variants par analyse
+DNA-Seq</em></li>
+</ul>
+</div>
+<div id="jour-3-après-midi" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Jour 3
+Après-Midi</h3>
+<ul>
+<li>TD: <em>DNA-Seq - Utilisation du pipeline d’appel de variants
+<code>sarek</code></em></li>
+<li>Conclusion de la formation</li>
+</ul>
+</div>
+</div>
+<div id="pratique" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Pratique</h2>
+<ul>
+<li><p>Mise à disposition de comptes de formation sur le <strong>cluster
+IFB-core</strong> de <a
+href="https://www.france-bioinformatique.fr/">l’Institut Français de
+bioinformatique (IFB)</a></p></li>
+<li><p>Les supports de cours à jour sont disponibles sur ce
+lien:</p></li>
+</ul>
+<p><a href="https://reposgb.github.io/formation_nfcore_linux"
+class="uri">https://reposgb.github.io/formation_nfcore_linux</a></p>
+</div>
+<div id="remerciement" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Remerciement</h2>
+<p>Je remercie les personnes suivantes qui ont joué un rôle essentiel à
+la mise en place de cette formation:</p>
+<ul>
+<li><p><strong>Mme Chloé MARTIN</strong> du <strong>Pôle développement
+RH d’Aix-Marseille Université</strong> pour l’organisation de la
+formation.</p></li>
+<li><p>L’<strong>Institut Français de Bioinformatique</strong> (IFB)
+pour la mise à disposition de comptes utilisateurs et d’espace disque
+pour cette formation.</p></li>
+<li><p>Les membres de la plateforme bioinformatique
+<strong>Cibi</strong> du <strong>Centre de Recherche en Cancérologie de
+Marseille</strong> pour leur expertise précieuse dans la mise en place
+de cette formation.</p></li>
+</ul>
+<p><img src="Logo_IFB.png" width="200" /> <img src="Logo_AMU.png"
+width="200" /> <img src="Logo_Cibi_classic.png" width="200" /></p>
+<p><br> <br> <br> <br></p>
+<hr />
+<div style="text-align: center">
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png"></a><br></p>
+<p>Cette œuvre est mise à disposition selon les termes de la
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licence
+Creative Commons:</a> <br>Attribution - Pas d’Utilisation Commerciale -
+Pas de Modification 4.0 International (CC BY-NC-ND 4.0).</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
