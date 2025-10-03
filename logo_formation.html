@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bandeau 600x600</title>
+<style>
+  .banner {
+    width: 400px;
+    height: 400px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* contenu en colonne */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(180deg, #0f6fbf 0%, #3aa0d8 100%);
+    color: #ffffff;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    text-align: center;
+  }
+
+  .name {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 20px 0;
+  }
+
+  .subtitle {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+  }
+
+  .meta {
+    font-size: 44px;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+
+  .computer {
+    width: 120px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="meta">Formation en Bioinformatique</div>
+    <h1 class="name">(c) Ghislain BIDAUT 2025</h1>
+    <h2 class="subtitle">Aix Marseille Université</h2>
+    
+    <!-- Icône ordinateur -->
+    <svg class="computer" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="icône ordinateur">
+      <rect x="6" y="10" width="52" height="36" rx="3" ry="3" fill="#ffffff" opacity="0.95"/>
+      <rect x="10" y="14" width="44" height="28" rx="1" ry="1" fill="#0f6fbf"/>
+      <rect x="26" y="46" width="12" height="4" rx="1" ry="1" fill="#ffffff"/>
+      <rect x="18" y="50" width="28" height="2" rx="1" ry="1" fill="#0f6fbf"/>
+      <circle cx="54" cy="42" r="1.8" fill="#ffffff" />
+    </svg>
+  </div>
+</body>
+</html>
